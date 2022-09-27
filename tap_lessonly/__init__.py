@@ -30,7 +30,7 @@ def discover():
     raw_schemas = load_schemas()
     streams = []
     for stream_id, schema in raw_schemas.items():
-        key_properties = ['uuid']
+        key_properties = ['id']
 
         replication_key = None
         if stream_id == 'qa':
