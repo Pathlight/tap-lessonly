@@ -7,7 +7,7 @@ from singer.catalog import Catalog, CatalogEntry
 from singer.schema import Schema
 
 
-REQUIRED_CONFIG_KEYS = ["start_date", "username", "password"]
+REQUIRED_CONFIG_KEYS = ['api_key','subdomain']
 LOGGER = singer.get_logger()
 
 
@@ -30,9 +30,18 @@ def discover():
     raw_schemas = load_schemas()
     streams = []
     for stream_id, schema in raw_schemas.items():
-        # TODO: populate any metadata and stream's key properties here..
-        stream_metadata = []
-        key_properties = []
+        key_properties = ['uuid']
+
+        replication_key = None
+        if stream_id == 'qa':
+            replication_key = 'sequence_id'
+
+        stream_metadata = metadata.get_standard_metadata(
+            schema=schema.to_dict(),
+            key_properties=key_properties,
+            valid_replication_keys=replication_key,
+            replication_method=None
+            )
         streams.append(
             CatalogEntry(
                 tap_stream_id=stream_id,
