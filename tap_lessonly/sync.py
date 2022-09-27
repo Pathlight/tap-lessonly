@@ -8,6 +8,7 @@ from .client import Client
 
 def sync(config, state, catalog):
     """ Sync data from tap source """
+    client = Client(config)
     # Loop over selected streams in catalog
     for stream in catalog.get_selected_streams(state):
         LOGGER.info("Syncing stream:" + stream.tap_stream_id)
