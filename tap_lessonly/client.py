@@ -37,13 +37,12 @@ class Client:
 
     def __init__(self, config):
         self.api_key = config['api_key']
-        secret = config['secret']
-        self.jwt_token = jwt.encode({}, secret, algorithm='HS256')
+        self.subdomain = config['subdomain']
 
     def get_headers(self, extra_headers):
         headers = {
-            'Authorization': self.jwt_token,
-            'x-api-key': self.api_key
+            'subdomain': self.subdomain,
+            'api_key': self.api_key
         }
         if extra_headers:
             headers.update(extra_headers)

@@ -10,8 +10,8 @@ setup(
     classifiers=["Programming Language :: Python :: 3 :: Only"],
     py_modules=["tap_lessonly"],
     install_requires=[
-        # NB: Pin these to a more specific version for tap reliability
-        "singer-python",
+        "singer-python>=5.0.12",
+        "PyJWT==1.7.1",
         "requests",
     ],
     entry_points="""

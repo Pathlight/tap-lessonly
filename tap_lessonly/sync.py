@@ -6,6 +6,8 @@ from singer.catalog import Catalog, CatalogEntry
 from singer.schema import Schema
 from .client import Client
 
+LOGGER = singer.get_logger()
+
 def sync(config, state, catalog):
     """ Sync data from tap source """
     client = Client(config)
@@ -18,7 +20,7 @@ def sync(config, state, catalog):
 
         singer.write_schema(
             stream_name=stream.tap_stream_id,
-            schema=stream.schema,
+            schema=stream.schema.to_dict(),
             key_properties=stream.key_properties,
         )
 
