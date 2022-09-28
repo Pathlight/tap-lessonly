@@ -11,7 +11,7 @@ setup(
     py_modules=["tap_lessonly"],
     install_requires=[
         "singer-python>=5.0.12",
-        "PyJWT==1.7.1",
+        "PyJWT==2.4.0",
         "requests",
     ],
     entry_points="""
