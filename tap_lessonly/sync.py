@@ -12,8 +12,6 @@ def sync(config, state, catalog):
     # Loop over selected streams in catalog
     for stream in catalog.get_selected_streams(state):
         LOGGER.info("Syncing stream:" + stream.tap_stream_id)
-        bookmark_column = stream.replication_key
-        is_sorted = True  # TODO: indicate whether data is sorted ascending on bookmark value
 
         singer.write_schema(
             stream_name=stream.tap_stream_id,
@@ -36,4 +34,10 @@ def sync(config, state, catalog):
                     break
                 singer.write_records(stream.tap_stream_id,tap_data.get("assignments"))
                 PAGE_START += 1
+        if stream.tap_stream_id == "users":
+            while True:
+                tap_data = client.get('users?page={}&per_page=1000'.format(PAGE_START))
+                if not len(tap_data.get("users")) > 0:
+                    break
+                singer.write_records(stream.tap_stream_id,tap_data.get("users"))
     return
