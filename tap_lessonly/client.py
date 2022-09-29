@@ -13,24 +13,6 @@ import requests.exceptions
 import singer
 
 LOGGER = singer.get_logger()
-
-def set_query_parameters(url, **params):
-    """Given a URL, set or replace a query parameter and return the
-    modified URL.
-    >>> set_query_parameters('http://example.com?foo=bar&biz=baz', foo='stuff', bat='boots')
-    'http://example.com?foo=stuff&biz=baz&bat=boots'
-    """
-    scheme, netloc, path, query_string, fragment = urllib.parse.urlsplit(url)
-    query_params = urllib.parse.parse_qs(query_string)
-
-    new_query_string = ''
-
-    for param_name, param_value in params.items():
-        query_params[param_name] = [param_value]
-        new_query_string = urllib.parse.urlencode(query_params, doseq=True)
-
-    return urllib.parse.urlunsplit((scheme, netloc, path, new_query_string, fragment))
-
 class Client:
     BASE_URL = 'https://api.lessonly.com/api/v1'
     MAX_GET_ATTEMPTS = 7
@@ -38,16 +20,6 @@ class Client:
     def __init__(self, config):
         self.api_key = config['api_key']
         self.subdomain = config['subdomain']
-
-    def get_headers(self, extra_headers):
-        headers = {
-            'subdomain': self.subdomain,
-            'api_key': self.api_key
-        }
-        if extra_headers:
-            headers.update(extra_headers)
-
-        return headers
 
     def get(self, url, params=None, headers=None):
         if not url.startswith('https://'):
@@ -58,7 +30,7 @@ class Client:
         for num_retries in range(self.MAX_GET_ATTEMPTS):
             will_retry = num_retries < self.MAX_GET_ATTEMPTS - 1
             try:
-                resp = requests.get(url, params=params, headers=self.get_headers(headers))
+                resp = requests.get(url, params=params, auth=(self.subdomain,self.api_key))
             # Catch the base exception from requests
             except requests.exceptions.RequestException as e:
                 resp = None
@@ -80,31 +52,3 @@ class Client:
 
         resp.raise_for_status()
         return resp.json()
-
-def paging_get(self, url, **get_args):
-        requested_urls = set()
-
-        sequence_id = 0
-        MAX_RESPONSE_SIZE = 1000
-
-        get_args = {k: v for k, v in get_args.items() if v is not None}
-        url = set_query_parameters(url, **get_args)
-
-        while url and url not in requested_urls:
-            requested_urls.add(url)
-            data = self.get(url)
-
-            LOGGER.info('Lessonly paging request', extra={
-                'total_size': len(data),
-                'page': len(requested_urls),
-                'url': url,
-            })
-
-            if data:
-                sequence_id = data[-1]['sequence_id']
-                yield sequence_id, data
-
-            if len(data) < MAX_RESPONSE_SIZE:
-                break
-
-            url = set_query_parameters(url, after=sequence_id)
