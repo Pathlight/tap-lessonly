@@ -40,4 +40,5 @@ def sync(config, state, catalog):
                 if not len(tap_data.get("users")) > 0:
                     break
                 singer.write_records(stream.tap_stream_id,tap_data.get("users"))
+                PAGE_START += 1
     return
