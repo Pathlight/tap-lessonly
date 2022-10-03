@@ -20,16 +20,9 @@ def sync(config, state, catalog):
         )
         # TODO: delete and replace this inline function with your own data retrieval process:
         PAGE_START = 1
-        if stream.tap_stream_id == "completed_assignments":
+        if stream.tap_stream_id == "assignments":
             while True:
                 tap_data = client.get('assignments/?page={}&per_page=1000'.format(PAGE_START))
-                if not len(tap_data.get("assignments")) > 0:
-                    break
-                singer.write_records(stream.tap_stream_id,tap_data.get("assignments"))
-                PAGE_START += 1
-        if stream.tap_stream_id == "incomplete_assignments":
-            while True:
-                tap_data = client.get('assignments/incomplete?page={}&per_page=1000'.format(PAGE_START))
                 if not len(tap_data.get("assignments")) > 0:
                     break
                 singer.write_records(stream.tap_stream_id,tap_data.get("assignments"))
