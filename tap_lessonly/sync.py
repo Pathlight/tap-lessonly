@@ -33,7 +33,7 @@ def sync_users(client, stream, state):
 def sync(config, state, catalog):
     """ Sync data from tap source """
     client = Client(config)
-    
+
     for stream in catalog.get_selected_streams(state):
         LOGGER.info("Syncing stream:" + stream.tap_stream_id)
 
