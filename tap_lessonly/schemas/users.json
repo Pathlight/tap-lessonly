@@ -1,0 +1,107 @@
+{
+	"type": [
+	  "null",
+	  "object"
+	],
+	"additionalProperties": false,
+	"properties": {
+	  "id": {
+		"type": [
+		  "null",
+		  "integer"
+		]
+	  },
+	  "resource_type": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "ext_uid": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "email": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "name": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "role": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "role_id": {
+		"type": [
+		  "null",
+		  "integer"
+		]
+	  },
+	  "archived_at": {
+		"type": [
+		  "null",
+		  "string"
+		],
+		"format": "date-time"
+	  },
+	  "archived_by_user_id": {
+		"type": [
+		  "null",
+		  "integer"
+		]
+	  },
+	  "job_title": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "business_unit": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "department": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "location": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+	  "locale": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  },
+      "hire_date": {
+		"type": [
+		  "null",
+		  "string"
+		],
+        "format": "date-time"
+	  },
+      "manager_name": {
+		"type": [
+		  "null",
+		  "string"
+		]
+	  }
+	}
+  }
